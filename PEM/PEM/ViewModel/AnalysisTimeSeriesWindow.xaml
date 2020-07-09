@@ -1,0 +1,477 @@
+﻿<Window x:Class="PEM.AppWindows.AnalysisTimeSeriesWindow"
+        xmlns:local="clr-namespace:PEM.AppWindows"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Time Series Modeling" 
+        Height="450" Width="800" 
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded"
+        >
+
+    <Window.Resources>
+        <!-- Used in order to have consistent borders: -->
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush"     Value="Black" />
+            <Setter Property="BorderThickness" Value="1"     />
+            <Setter Property="Margin"          Value="3"     />
+            <Setter Property="Padding"         Value="3"     />
+            <Setter Property="CornerRadius"    Value="5"     />
+        </Style>
+    </Window.Resources>
+
+    <Border         
+        Margin="15,15,15,15"
+        >
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+
+            <Label 
+                Content="Time Series Analysis"
+                Foreground="DarkBlue"
+                Grid.Column="2" Grid.ColumnSpan="6" Grid.Row="0" Grid.RowSpan="2"
+                FontFamily="Comic Sans MS" FontSize="24" FontWeight="Bold"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                
+                />
+            <StackPanel
+                Orientation="Vertical"
+                Grid.Row="2" Grid.ColumnSpan="4" Grid.RowSpan="8"
+                
+                >
+                <Label 
+                    Content="Selected Time Series"
+                    FontSize="13"
+                    FontWeight="DemiBold"                    
+                    />
+                <ComboBox
+                    x:Name="Combo_TS_FileList"
+                    SelectionChanged="Combo_TS_FileList_SelectionChanged"
+                    Background="Lavender"
+                    >
+                </ComboBox>
+                <StackPanel 
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Mean"
+                        Width="150"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+                    <TextBox 
+                        x:Name="meanValue"
+                        Margin="10 0 0 0"
+                        Width="150"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                             IsReadOnly="True"
+                   />
+                </StackPanel>
+                <StackPanel
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Median"
+                        Width="150"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+                    <TextBox 
+                        x:Name="medianValue"
+                        Margin="10 0 0 0"
+                        Width="150"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                          IsReadOnly="True"
+                      />
+                </StackPanel>
+                <StackPanel
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Standard Deviation"
+                        Width="150"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+                    <TextBox 
+                        x:Name="sdValue"
+                        Margin="10 0 0 0"
+                        Width="150"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                          IsReadOnly="True"
+                      />
+                </StackPanel>
+                <StackPanel
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Maximum"
+                        Width="150"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+                    <TextBox 
+                        x:Name="maxVal"
+                        Margin="10 0 0 0"
+                        Width="150"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                          IsReadOnly="True"
+                      />
+                </StackPanel>
+                <StackPanel
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Minimum"
+                        Width="150"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+                    <TextBox 
+                        x:Name="minVal"
+                        Margin="10 0 0 0"
+                        Width="150"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                        IsReadOnly="True"
+                       />
+                </StackPanel>
+                <StackPanel
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Nr of records"
+                        Width="150"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+                    <TextBox 
+                        x:Name="tsLength"
+                        Margin="10 0 0 0"
+                        Width="150"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                        IsReadOnly="True"
+                       />
+                </StackPanel>
+            </StackPanel>
+            <!--Vertical Line: Seperator-->
+            <Rectangle  
+                Grid.Column="4" Grid.Row="2"
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Center" 
+                Fill="AliceBlue" 
+                Height="2" Grid.ColumnSpan="5" Margin="20,0,60,30"
+                
+                        >
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="90"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+
+            <StackPanel
+                Orientation="Vertical"
+                Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="6" Grid.RowSpan="8" Margin="40,0,0,0"                
+                >
+                <Label 
+                    Content="Time Series Forecasting Methods"
+                    FontSize="13"
+                    FontWeight="DemiBold"                    
+                    />
+                <ComboBox
+                    x:Name="Combo_Modeling_List"
+                    SelectionChanged="Combo_Modeling_List_SelectionChanged"
+                    Background="Lavender"
+                    >
+                    <ComboBoxItem
+                        x:Name="autoRegression"
+                        Content="Autoregression (AR)"
+                        IsSelected="True"
+                        />
+                    <ComboBoxItem
+                        x:Name="movingAverage"
+                        Content="Moving Average (MA)"
+                        
+                        />
+
+                    <ComboBoxItem
+                        x:Name="armaModel"
+                        Content="Autoregressive Moving Average (ARMA)"
+                        
+                        />
+
+                    <ComboBoxItem
+                        x:Name="arimaModel"
+                        Content="Autoregressive Integrated Moving Average (ARIMA)"
+                        
+                        />
+
+                    <ComboBoxItem
+                        x:Name="sarimaModel"
+                        Content="Seasonal Autoregressive Integrated Moving-Average (SARIMA)"
+                        
+                        />
+                </ComboBox>
+
+                <StackPanel 
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="α (significance level in %)="
+                        Width="160"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                       />
+                    <TextBox 
+                        x:Name="sigLevel"
+                        Text="5"
+                        Margin="10 0 0 0"
+                        Width="20"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsReadOnly="False"
+                        LostFocus="sigLevel_LostFocus"
+                   />
+                </StackPanel>
+
+                <StackPanel 
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Number of Predictions (np)="
+                        Width="160"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                        FontSize="11"
+                       />
+                    <TextBox 
+                        x:Name="numPredic"
+                        Text="0.01"
+                        Margin="10 0 0 0"
+                        Width="50"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsReadOnly="False"
+                        LostFocus="numPredic_LostFocus"
+                   />
+                    <Border BorderThickness="0" BorderBrush="Black">
+                        <TextBlock
+                            x:Name="numPredicExplain"
+                            Background="Bisque"
+                            FontFamily="Arial" FontSize="10"
+                            Width="185" Height="35"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            Padding="1"
+                            TextWrapping="Wrap"
+                        />
+                    </Border>
+                </StackPanel>
+                <StackPanel 
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Transformation"
+                        Width="150"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+
+                    <RadioButton 
+                        x:Name="logTrans"
+                        Content="log"
+                        Margin="10 0 0 0"
+                        Width="60"
+                        BorderThickness="1"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                        GroupName="transformation"
+                        IsChecked="True"      
+                        Click="logTrans_Click"
+                         
+                   />
+                    <RadioButton 
+                        x:Name="boxCox"
+                        Content="Box-Cox Lambda"
+                        Margin="10 0 0 0"
+                        Width="150"
+                        BorderThickness="1"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                        GroupName="transformation"
+                        Click="boxCox_Click"
+                        
+                   />
+                </StackPanel>
+
+                <StackPanel 
+                    x:Name="lambdaPanel"
+                    Orientation="Horizontal"
+                    Visibility="Visible"
+                    >
+                    <Label 
+                        Content="λ (Box-Cox power transformation)="
+                        Width="202"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+
+                    <TextBox
+                        x:Name="lambdaVal"
+                        Text="0.25"
+                        Margin="10 0 0 0"
+                        Width="50"
+                        BorderThickness="0"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   />
+
+                </StackPanel>
+
+                <StackPanel 
+                    Orientation="Horizontal"
+                    >
+                    <Label 
+                        Content="Date Separator"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+
+                    <TextBox
+                        x:Name="dateListSeparator"
+                        Text="/"
+                        Margin="40 0 50 0"
+                        Width="25"
+                        BorderThickness="1"
+                        MaxLength="1"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                        LostFocus="dateListSeparator_LostFocus"
+                   />
+                    <Label 
+                        Content="Time Separator"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+
+                    <TextBox
+                        x:Name="timeListSeparator"
+                        Text=":"
+                        Margin="10 0 0 0"
+                        Width="25"
+                        BorderThickness="1"
+                        MaxLength="1"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                        LostFocus="timeListSeparator_LostFocus"
+                   />
+                </StackPanel>
+
+                <StackPanel 
+                    Orientation="Horizontal"
+                    Visibility="Collapsed"
+                    >
+                    <Label 
+                        Content="Lag time"
+                        Width="150"
+                         VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
+                       />
+
+                    <TextBox
+                        x:Name="lagTime"
+                        Text="0"
+                        Margin="10 0 0 0"
+                        Width="17"
+                        BorderThickness="1"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   />
+
+                </StackPanel>
+
+                <Rectangle                      
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Center" 
+                    Fill="AliceBlue"
+                    Height="2"
+                    Width="Auto"
+                    />
+
+                <Label Content="Identify ARIMA Model (p,d,q)" FontSize="11" FontWeight="DemiBold"/>
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    >
+                    <Label Content="ARIMA Differencing: " FontSize="10"/>
+                    <TextBox 
+                        x:Name="diffOrder"
+                        Text="0"
+                        Width="20" 
+                        TextAlignment="Center"
+                        VerticalAlignment="Center"
+                        PreviewKeyDown="Order_PreviewKeyDown"
+                               >
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding modelARIMA_Click}" Key="Return" />
+                            <KeyBinding Command="{Binding modelARIMA_Click}" Key="Enter" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Label Content="p: " FontSize="10" FontFamily="Georgia" Margin="10 0 0 0"/>
+                    <TextBox 
+                        x:Name="pOrder"
+                        Text="1"
+                        Width="20" 
+                        TextAlignment="Center"
+                        VerticalAlignment="Center"
+                        PreviewKeyDown="Order_PreviewKeyDown"
+                               />
+                    <Label Content="q: " FontSize="10" FontFamily="Georgia" Margin="10 0 0 0"/>
+                    <TextBox 
+                        x:Name="qOrder"
+                        Text="1"
+                        Width="20" 
+                        TextAlignment="Center"
+                        VerticalAlignment="Center"
+                        PreviewKeyDown="Order_PreviewKeyDown"
+                               />
+                    <TextBlock 
+                        Text="&#x2794;" 
+                        FontFamily="Lucida Console" 
+                        VerticalAlignment="Center"
+                        Margin="20 0 0 0"
+                        />
+                    <Button
+                        x:Name="modelARIMA"
+                        Content="Start Modeling"
+                        Margin="20 0 0 0"
+                        Padding="20 2 20 2"
+                        Width="120"
+                        VerticalAlignment="Center"
+                        Click="modelARIMA_Click"
+                        />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

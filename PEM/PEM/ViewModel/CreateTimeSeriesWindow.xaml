@@ -1,0 +1,238 @@
+﻿<Window x:Class="PEM.AppWindows.CreateTimeSeriesWindow"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local ="clr-namespace:PEM.Properties"
+        mc:Ignorable="d"
+        Title="Choose Time Series" Height="450" Width="800"
+        ResizeMode="NoResize" 
+        Topmost="False"
+        WindowStartupLocation="CenterScreen"
+        >
+
+    <Window.Resources>
+        <!-- Used in order to have consistent borders: -->
+        <Style TargetType="Border">
+            <Setter Property="BorderBrush"     Value="Black" />
+            <Setter Property="BorderThickness" Value="1"     />
+            <Setter Property="Margin"          Value="3"     />
+            <Setter Property="Padding"         Value="3"     />
+            <Setter Property="CornerRadius"    Value="5"     />
+        </Style>
+    </Window.Resources>
+
+    <Border Margin="15,15,15,15">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="100*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel 
+                x:Name="stackPanel_TS_Import"
+                Grid.Column="3" Grid.ColumnSpan="4" Grid.RowSpan="8" 
+                IsEnabled="False" Margin="0,10,0,0"
+                >
+                <Label 
+                    Content="Use drop-down to choose a time series"
+                    FontSize="15"
+                    VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    FontWeight="Bold" FontFamily="{DynamicResource {x:Static SystemFonts.IconFontFamilyKey}}"                    
+                    />
+
+                <ComboBox
+                    x:Name="headersComboList"
+                    SelectionChanged="headersComboList_SelectionChanged"
+                    SelectedIndex="0"
+                    
+                    >
+                    <ComboBoxItem 
+                        x:Name="comboItem"
+                        HorizontalAlignment="Center" IsSelected="True">-------- Choose a Time Series --------</ComboBoxItem>
+                </ComboBox>
+
+                <Button 
+                        x:Name="previousButton"
+                        Content="Previous"
+                        Margin="20"
+                        Width="100"
+                        HorizontalAlignment="Center"
+                        Click="previousButton_Click"
+                        />
+
+                <StackPanel
+                    x:Name="stackPanel_ImportBtn"
+                    Margin="20 0" 
+                    Orientation="Vertical"
+                    IsEnabled="False" Height="113"
+                    >
+                    <RadioButton x:Name="dateFormat_rdButton" Content="My time series contain only Date column" GroupName="dateTimeRadioList" Margin="0,10,0,0" IsChecked="True" Click="dateFormat_rdButton_Click"/>
+                    <RadioButton x:Name="dateTimeFormat_rdButton" Content="My time series contain Date and Time columns" GroupName="dateTimeRadioList" Margin="0,10" Click="dateTimeFormat_rdButton_Click"/>
+                    <Button 
+                        x:Name="importCSVFile" 
+                        Margin="33,10,33,0" Padding="5"
+                        Content="Create the Input Time Series" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        FontSize="15"
+                        Click="importCSVFile_Click"
+                        >
+                        <Button.Resources>
+                            <Style TargetType="{x:Type ToolTip}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ToolTip}">
+                                            <Grid Margin="0,60,0,0">
+                                                <Path Data="M0 0 30 0 50 -15 70 0 100 0 100 30 0 30z" Fill="#3E82C4" Stretch="Fill"/>
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,8"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel
+                x:Name="dateTime_StackPanel"
+                Grid.Row="3" Grid.RowSpan="4" Grid.Column="7" Grid.ColumnSpan="3"     
+                
+                >
+                <Label
+                    Content="Date/Time column title from CSV file"
+                    FontWeight="Bold" 
+                    HorizontalContentAlignment="Center"                    
+                    />
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <Label 
+                    Content="Default for date column: date"
+                    />
+                    <TextBox 
+                        x:Name="dateColTitle"
+                        Margin="0 0 0 0"
+                        Text="date"
+                        />
+                    <Label 
+                        Margin="0 10 0 0"
+                        Content="Default for Time column: time"
+                        />
+                    <TextBox 
+                        x:Name="timeColTitle"
+                        Margin="0 0 0 0"
+                        Text="time"
+                        />
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel 
+                x:Name="delimiterSPanel"  
+                Margin="20" 
+                
+                Orientation="Vertical" 
+                Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="6" 
+                Background="FloralWhite"
+                
+                >
+
+                <Label  
+                    Content="CSV list separator"
+                    FontWeight="DemiBold"
+                    HorizontalAlignment="Center"
+                    />
+
+                <RadioButton 
+                    x:Name="commaDelimiter" 
+                    Content="Comma"
+                    IsChecked="True"
+                    Click="commaDelimiter_Click"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    GroupName="separatorList" Checked="commaDelimiter_Checked"
+                    />
+                <Separator Margin="5"/>
+
+                <RadioButton 
+                    x:Name="semicolonDelimiter" 
+                    Content="Semicolon"
+                    Click="semicolonDelimiter_Click"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    GroupName="separatorList" Checked="semicolonDelimiter_Checked"     />
+                <Separator Margin="5"/>
+
+                <RadioButton 
+                    x:Name="tabDelimiter" 
+                    Content="Tab"
+                    Click="tabDelimiter_Click"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    GroupName="separatorList" Checked="tabDelimiter_Checked"     />
+                <Separator Margin="5"/>
+
+
+                <RadioButton 
+                    x:Name="spaceDelimiter"
+                    Content="Space"
+                    Click="spaceDelimiter_Click"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    GroupName="separatorList" Checked="spaceDelimiter_Checked"     />
+                <Separator Margin="5"/>
+                
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock 
+                    Text="Other separator"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                     />
+                    <TextBox
+                        x:Name="otherDelimiter"
+                        Width="20"
+                        Margin="20 0 0 0"
+                        MaxLength="1"
+                        LostFocus="otherDelimiter_LostFocus"
+                        ></TextBox>
+                </StackPanel>
+
+                
+
+                <Button 
+                    x:Name="loadHeaderButton"
+                    Margin="10 10 10 0"
+                    Content="Load CSV File Columns"
+                    Click="loadHeaderButton_Click"
+                    />
+            </StackPanel>
+
+
+
+
+
+        </Grid>
+    </Border>
+
+</Window>
+

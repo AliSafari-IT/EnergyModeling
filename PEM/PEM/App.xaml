@@ -1,0 +1,11 @@
+﻿<Application x:Class="PEM.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PEM"
+             StartupUri="MainWindow.xaml"
+             ShutdownMode="OnLastWindowClose"
+             >
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

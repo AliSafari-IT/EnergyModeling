@@ -1,8 +1,6 @@
 @echo off
-
 START  /wait ./state.sh
-
 echo            . . . . . . . . . . . . . . . . . . . .
-echo               The program executed successfully!
+echo        The program state has been checked successfully!
 echo            . . . . . . . . . . . . . . . . . . . .
 

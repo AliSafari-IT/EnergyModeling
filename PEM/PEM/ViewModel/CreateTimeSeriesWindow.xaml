@@ -84,12 +84,14 @@
                 <ComboBox
                     x:Name="headersComboList"
                     SelectionChanged="headersComboList_SelectionChanged"
-                    SelectedIndex="0"
-                    
+                    SelectedIndex="0"    
+                    HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="304"
                     >
                     <ComboBoxItem 
                         x:Name="comboItem"
-                        HorizontalAlignment="Center" IsSelected="True">-------- Choose a Time Series --------</ComboBoxItem>
+                        HorizontalAlignment="Center" IsSelected="True">
+                        -------- Choose a Time Series --------
+                    </ComboBoxItem>
                 </ComboBox>
 
                 <Button 
@@ -107,8 +109,8 @@
                     Orientation="Vertical"
                     IsEnabled="False" Height="240"
                     >
-                    <RadioButton x:Name="dateFormat_rdButton" Content="My time series contain only Date column" GroupName="dateTimeRadioList" Margin="0,10,0,0" IsChecked="True" Click="dateFormat_rdButton_Click"/>
-                    <RadioButton x:Name="dateTimeFormat_rdButton" Content="My time series contain Date and Time columns" GroupName="dateTimeRadioList" Margin="0,10" Click="dateTimeFormat_rdButton_Click"/>
+                    <RadioButton x:Name="dateFormat_rdButton" Content="My time series contain only Date column" GroupName="dateTimeRadioList" Margin="0,10,0,0" IsChecked="True" Click="dateFormat_rdButton_Click" Checked="dateFormat_rdButton_Checked"/>
+                    <RadioButton x:Name="dateTimeFormat_rdButton" Content="My time series contain Date and Time columns" GroupName="dateTimeRadioList" Margin="0,10" Click="dateTimeFormat_rdButton_Click" Checked="dateTimeFormat_rdButton_Checked"/>
                     <Button 
                         x:Name="importCSVFile" 
                         Margin="0,100,0,0" Padding="5"
@@ -149,35 +151,52 @@
                         <Label Content="Date column title" Foreground="Red" />
                         <Image x:Name="questionMarkDate"
                                Source="/PEM;component/Resources/Images/Icons/icons8-question-mark-96.png" 
-                               Width="18" 
-                               Margin="10,0,0,0" 
+                               Width="15" 
+                               Margin="90,0,0,0" 
+                               
                                MouseEnter="questionMark_MouseEnter"
                                MouseLeave="questionMark_MouseLeave"
                                />
                     </WrapPanel>
-
-                    <TextBox 
-                        x:Name="dateColTitle"
-                        Margin="0 0 0 0"
-                        Text="date"
-                        Template="{StaticResource TextBoxBaseControlTemplate}" 
-                        />
-
-                    <WrapPanel Margin="0 10 0 0">
-                        <Label Content="Time column title" Foreground="Red" />
-                        <Image x:Name="questionMarkTime"
+                    <ComboBox
+                        x:Name="ComboDateFinder"
+                        SelectionChanged="ComboDateFinder_SelectionChanged"
+                        SelectedIndex="0"      
+                        IsEditable="True"
+                        >
+                        <ComboBoxItem 
+                            x:Name="comboDate_Field"
+                            HorizontalAlignment="Center" 
+                            IsSelected="True"
+                            Content="Date"
+                            />
+                    </ComboBox>
+                    <StackPanel x:Name="dateContainsTime">
+                        <WrapPanel Margin="0 10 0 0">
+                            <Label Content="Time column title" Foreground="Red" />
+                            <Image x:Name="questionMarkTime"
                                Source="/PEM;component/Resources/Images/Icons/icons8-question-mark-96.png" 
-                               Width="18" 
-                               Margin="10,0,0,0" 
+                               Width="15" 
+                               Margin="90,0,0,0" 
                                />
-                    </WrapPanel>
+                        </WrapPanel>
 
-                    <TextBox 
-                        x:Name="timeColTitle"
-                        Margin="0 0 0 0"
-                        Text="time"
-                        Template="{StaticResource TextBoxBaseControlTemplate}" 
-                        />
+                        <ComboBox
+                            x:Name="ComboTimeFinder"
+                            SelectionChanged="ComboDateFinder_SelectionChanged"
+                            SelectedIndex="0"           
+                            IsEditable="True"
+                            >
+                            <ComboBoxItem 
+                            x:Name="comboTime_Field"
+                            HorizontalAlignment="Center" 
+                            IsSelected="True"
+
+                            >
+                                Time
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
 
             </StackPanel>
@@ -187,18 +206,18 @@
                 Margin="20,20,20,10" 
                 
                 Orientation="Vertical" 
-                Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="6" 
+                Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="7" 
                 Background="FloralWhite"
                 
                 >
-                <WrapPanel Orientation="Vertical" Margin="5" Height="185">
-                <Label  
+                <WrapPanel Orientation="Vertical" Margin="5" Height="203">
+                    <Label  
                     Content="CSV list separator"
                     FontWeight="DemiBold"
                     HorizontalAlignment="Center"
                     />
 
-                <RadioButton 
+                    <RadioButton 
                     x:Name="commaDelimiter" 
                     Content="Comma"
                     IsChecked="True"
@@ -206,9 +225,9 @@
                     VerticalContentAlignment="Center"
                     GroupName="separatorList"
                     />
-                <Separator Margin="5"/>
+                    <Separator Margin="5"/>
 
-                <RadioButton 
+                    <RadioButton 
                     x:Name="semicolonDelimiter" 
                     Content="Semicolon"
                     VerticalAlignment="Center"
@@ -218,9 +237,9 @@
                     Width="170"     
                     />
 
-                <Separator Margin="5"/>
+                    <Separator Margin="5"/>
 
-                <RadioButton 
+                    <RadioButton 
                     x:Name="tabDelimiter" 
                     Content="Tab"
                     VerticalAlignment="Center"
@@ -228,10 +247,10 @@
                     GroupName="separatorList"
                     />
 
-                <Separator Margin="5"/>
+                    <Separator Margin="5"/>
 
 
-                <RadioButton 
+                    <RadioButton 
                     x:Name="spaceDelimiter"
                     Content="Space"
                     VerticalAlignment="Center"
@@ -239,34 +258,40 @@
                     GroupName="separatorList"
                     />
 
-                <Separator Margin="5"/>
+                    <Separator Margin="5"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock 
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
                     Text="Other separator"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                      />
 
-                    <TextBox
-                        x:Name="otherDelimiter"
-                        Width="30"
-                        Margin="10 0 0 0"
-                        MaxLength="1"
-                        LostFocus="otherDelimiter_LostFocus"
-                        HorizontalContentAlignment="Center" 
-                        VerticalContentAlignment="Center" 
-                        VerticalAlignment="Center"
+                        <TextBox
+                            x:Name="otherDelimiter"
+                            Width="30"
+                            Margin="10 0 0 0"
+                            MaxLength="1"
+                            LostFocus="otherDelimiter_LostFocus"
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            VerticalAlignment="Center"
+                            BorderBrush="CadetBlue"
+                            Template="{StaticResource TextBoxBaseControlTemplate}"
                         />
-                </StackPanel>
+                    </StackPanel>
 
 
 
-                <Button 
-                    x:Name="loadHeaderButton"
-                    Margin="10 10 10 0"
-                    Content="Load CSV File Columns"
-                    Click="loadHeaderButton_Click"
+                    <Button  
+                        x:Name="loadHeaderButton"
+                        Margin="10 10 10 0"
+                        VerticalAlignment="Center"
+                        Content="Get CSV header fields"
+                        Click="loadHeaderButton_Click"
+                        BorderBrush="Cornsilk"
+                        Height="25"
+                        
                     />
                 </WrapPanel>
             </StackPanel>

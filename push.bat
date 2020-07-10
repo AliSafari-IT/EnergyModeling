@@ -2,7 +2,7 @@
 
 START  /wait ./push.sh
 
-echo            . . . . . . . . . . . . . . . . . . . .
-echo               The program executed successfully!
-echo            . . . . . . . . . . . . . . . . . . . .
+echo               . . . . . . . . . . . . . . . . . . . .
+echo Congratulations, you have successfully pushed your branch to your remote!
+echo               . . . . . . . . . . . . . . . . . . . .
 

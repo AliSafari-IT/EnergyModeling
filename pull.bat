@@ -2,6 +2,6 @@
 
 START  /wait ./pull.sh
 
-echo            . . . . . . . . . . . . . . . . . . . .
-echo               The program executed successfully!
-echo            . . . . . . . . . . . . . . . . . . . .
+echo               . . . . . . . . . . . . . . . . . . . .
+echo You have successfully pulled your remote branch to the current branch!
+echo               . . . . . . . . . . . . . . . . . . . .

@@ -79,8 +79,14 @@ namespace PEM.AppWindows
 
         private void loadHeaderButton_Click (object sender, RoutedEventArgs e)
             {
+            Console.WriteLine ("*************************************************************************************");
+            Console.WriteLine ("********** loadHeaderButton_Click (object sender, RoutedEventArgs e) ****************");
+            Console.WriteLine ("*************************************************************************************");
             stackPanel_TS_Import.IsEnabled = true;
+            ComboDateFinder.IsEnabled = true;
+
             loadComboBoxItems ();
+
 
             }
 
@@ -89,6 +95,9 @@ namespace PEM.AppWindows
             {
 
             string[] headers=getCSV_Header (filename, GetDelimiter ());
+            Console.WriteLine ("*************************************************************************************");
+            Console.WriteLine ("******************** private void loadComboBoxItems () *****************************");
+            Console.WriteLine ("*************************************************************************************");
 
             Console.WriteLine ("Number of columns: {0}.", headers.Length);
             MessageBox.Show ("number of columns " + headers.Length, "Verifying the choice of list separator ", (MessageBoxButton) MessageBoxButtons.OKCancel);
@@ -96,7 +105,39 @@ namespace PEM.AppWindows
             foreach (string colName in headers)
                 {
                 headersComboList.Items.Add (colName);
+                ComboDateFinder.Items.Add (colName);
+                ComboTimeFinder.Items.Add (colName);
                 }
+
+            if (dateTimeFormat_rdButton.IsChecked == true)
+                {
+                dateContainsTime.Visibility = Visibility.Visible;
+                string st;
+                for (int k = 0; k < headers.Length; k++)
+                    {
+                    st = headers[k].ToLower ();
+                    if (st.Contains ("date"))
+                        {
+                        comboDate_Field.Content = headers[k];
+                        }
+                    else
+                        {
+                        comboDate_Field.Content = "date";
+                        }
+                    if (st.Contains ("time"))
+                        {
+                        comboTime_Field.Content = headers[k];
+                        }
+                    else
+                        {
+                        comboTime_Field.Content = "time";
+                        }
+
+                    }
+
+
+                }
+
             }
 
         private char GetDelimiter ()
@@ -113,7 +154,7 @@ namespace PEM.AppWindows
                 {
                 return ' ';
                 }
-            if (otherDelimiter.Text.Length >0)
+            if (otherDelimiter.Text.Length > 0)
                 {
                 return otherDelimiter.Text[0];
                 }
@@ -160,50 +201,8 @@ namespace PEM.AppWindows
 
         private void importCSVFile_Click (object sender, RoutedEventArgs e)
             {
+            stackPanel_ImportBtn.IsEnabled = true;
 
-            try
-                {
-                date_Title = dateColTitle.Text;
-                }
-            catch (NullReferenceException err)
-                {
-                Console.WriteLine ("Error in Dta/Time title setting: " + err.ToString ());
-                dateColTitle.Text = date_Title;
-                timeColTitle.Text = time_Title;
-                }
-            finally
-                {
-                if (String.Compare ("date", dateColTitle.Text) != 0)
-                    {
-                    date_Title = dateColTitle.Text;
-                    }
-
-                if (String.Compare ("time", timeColTitle.Text) != 0)
-                    {
-                    time_Title = timeColTitle.Text;
-                    }
-                }
-
-            Console.WriteLine ("Date title is: {0}, and Time title is {1}.", date_Title, time_Title);
-
-            for (int j = 0; j < headers.Length; j++)
-                {
-                if (String.Compare (headers[j], selectedTimeSeries) == 0)
-                    {
-                    selectedTimeSeriesIndex = j;
-                    }
-                if (String.Compare (headers[j], date_Title) == 0)
-                    dateIndex = j;
-                if (String.Compare (headers[j], time_Title) == 0)
-                    timeIndex = j;
-
-                }
-
-            Console.WriteLine ("Selected: {0} and with index: {1}.", selectedTimeSeries, selectedTimeSeriesIndex);
-            Console.WriteLine ("dateIndex: {0}", dateIndex);
-            Console.WriteLine ("timeIndex: {0}", timeIndex);
-            Console.WriteLine ("selectedTimeSeriesIndex {0}.", selectedTimeSeriesIndex);
-            Console.WriteLine ("TimeSeries has time:     {0}!.", timeseries_has_time.ToString ());
 
             get_TS_Data (); // fill the data table
 
@@ -281,10 +280,6 @@ namespace PEM.AppWindows
 
         private void headersComboList_SelectionChanged (object sender, SelectionChangedEventArgs e)
             {
-            if (!comboItem.IsSelected)
-                {
-                stackPanel_ImportBtn.IsEnabled = true;
-                }
             selectedTimeSeries = e.AddedItems[0].ToString ();
             }
 
@@ -296,9 +291,10 @@ namespace PEM.AppWindows
         private void dateTimeFormat_rdButton_Click (object sender, RoutedEventArgs e)
             {
             timeseries_has_time = true;
+            dateContainsTime.Visibility = Visibility.Visible;
             }
 
-         private void otherDelimiter_LostFocus (object sender, RoutedEventArgs e)
+        private void otherDelimiter_LostFocus (object sender, RoutedEventArgs e)
             {
             if (!otherDelimiter.Text.Equals (""))
                 {
@@ -308,7 +304,7 @@ namespace PEM.AppWindows
                 spaceDelimiter.IsChecked = false;
                 delimiter = otherDelimiter.Text[0];
                 }
-                
+
             }
 
         private void questionMark_MouseEnter (object sender, System.Windows.Input.MouseEventArgs e)
@@ -321,6 +317,21 @@ namespace PEM.AppWindows
             {
             Image img = ((Image)sender);
             img.Height /= 1.1;
+            }
+
+        private void ComboDateFinder_SelectionChanged (object sender, SelectionChangedEventArgs e)
+            {
+
+            }
+
+        private void dateFormat_rdButton_Checked (object sender, RoutedEventArgs e)
+            {
+            ComboTimeFinder.Visibility = Visibility.Collapsed;
+            }
+
+        private void dateTimeFormat_rdButton_Checked (object sender, RoutedEventArgs e)
+            {
+            ComboTimeFinder.Visibility = Visibility.Visible;
             }
         }
     }

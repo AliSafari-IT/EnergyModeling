@@ -137,7 +137,10 @@ namespace PEM.AppWindows
             header = header.Replace ('"', ' ');
             headers = header.Split (delimiter).Select (s => s.Trim ()).Where (s => s != String.Empty).ToArray ();
 
-            Console.WriteLine ("CSV header fields:  " + headers.ToString ());
+            headers.ToList ().ForEach (i => Console.WriteLine (i.ToString ()));
+
+            Console.WriteLine ("[{0}]", string.Join (", ", headers));
+
             fileReader.Close ();
             return headers;
             }

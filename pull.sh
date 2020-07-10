@@ -29,5 +29,17 @@ else
   echo "Git local working directory is clean"
 fi
 
-sleep 5
+printf "\n \n"
+
+echo "Press any key to continue"
+while [ true ] ; do
+read -t 2 -n 1
+if [ $? = 0 ] ; then
+exit ;
+else
+echo -n "."
+fi
+done
+
+printf "\n \n"
 

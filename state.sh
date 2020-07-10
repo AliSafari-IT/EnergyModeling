@@ -1,5 +1,5 @@
-printf "\n"
-echo" Power Energy Modeling"
+printf "\n \n \n"
+echo "........ Power Energy Modeling ......."
 printf "\n"
 echo "."
 echo ".."
@@ -12,7 +12,8 @@ echo "...."
 echo "..."
 echo ".."
 echo "."
-
+printf "\n \n"
+echo "Current state:" 
 UPSTREAM=${1:-'@{u}'}
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse "$UPSTREAM")
@@ -27,5 +28,17 @@ elif [ $REMOTE = $BASE ]; then
 else
     echo "Diverged"
 fi
+printf "\n \n"
 
-sleep 20
+
+echo "Press any key to continue"
+while [ true ] ; do
+read -t 2 -n 1
+if [ $? = 0 ] ; then
+exit ;
+else
+echo -n "."
+fi
+done
+
+printf "\n \n"

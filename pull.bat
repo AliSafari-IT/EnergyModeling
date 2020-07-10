@@ -2,7 +2,6 @@
 
 START  /wait ./pull.sh
 
-
-echo "The program executed successfully!"
-
-
+echo            . . . . . . . . . . . . . . . . . . . .
+echo               The program executed successfully!
+echo            . . . . . . . . . . . . . . . . . . . .

@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System;
 using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
+using CSharpMath;
+using System.Diagnostics;
 
 namespace PEM.AppWindows
     {
@@ -37,7 +39,7 @@ namespace PEM.AppWindows
         private int timeIndex;
         private string date_Title;
         private string time_Title;
-
+        public ImageSource Source { get; set; }
 
         public CreateTimeSeriesWindow ()
             {
@@ -82,11 +84,11 @@ namespace PEM.AppWindows
 
             }
 
+
         private void loadComboBoxItems ()
             {
-            delimiter = ',';
-            
-            string[] headers=getCSV_Header (filename, delimiter);
+
+            string[] headers=getCSV_Header (filename, GetDelimiter ());
 
             Console.WriteLine ("Number of columns: {0}.", headers.Length);
             MessageBox.Show ("number of columns " + headers.Length, "Verifying the choice of list separator ", (MessageBoxButton) MessageBoxButtons.OKCancel);
@@ -96,6 +98,28 @@ namespace PEM.AppWindows
                 headersComboList.Items.Add (colName);
                 }
             }
+
+        private char GetDelimiter ()
+            {
+            if (semicolonDelimiter.IsChecked == true)
+                {
+                return ';';
+                }
+            if (tabDelimiter.IsChecked == true)
+                {
+                return '\t';
+                }
+            if (spaceDelimiter.IsChecked == true)
+                {
+                return ' ';
+                }
+            if (otherDelimiter.Text.Length >0)
+                {
+                return otherDelimiter.Text[0];
+                }
+            return ','; // default delimiter
+            }
+
 
         // returns an array of strings representing the different fields of the csv file
         public string[] getCSV_Header (string filename, char delimiter)
@@ -274,12 +298,7 @@ namespace PEM.AppWindows
             timeseries_has_time = true;
             }
 
-        private void spaceDelimiter_Click (object sender, RoutedEventArgs e)
-            {
-            spaceDelimiter.IsChecked = true;
-            }
-
-        private void otherDelimiter_LostFocus (object sender, RoutedEventArgs e)
+         private void otherDelimiter_LostFocus (object sender, RoutedEventArgs e)
             {
             if (!otherDelimiter.Text.Equals (""))
                 {
@@ -292,51 +311,16 @@ namespace PEM.AppWindows
                 
             }
 
-        private void commaDelimiter_Click (object sender, RoutedEventArgs e)
+        private void questionMark_MouseEnter (object sender, System.Windows.Input.MouseEventArgs e)
             {
-            commaDelimiter.IsChecked = true;
+            Image img = ((Image)sender);
+            img.Height = img.ActualHeight * 1.1;
             }
 
-        private void semicolonDelimiter_Click (object sender, RoutedEventArgs e)
+        private void questionMark_MouseLeave (object sender, System.Windows.Input.MouseEventArgs e)
             {
-            semicolonDelimiter.IsChecked = true;
-            }
-
-        private void semicolonDelimiter_Checked (object sender, RoutedEventArgs e)
-            {
-            delimiter =  ';';
-            }
-
-        private void commaDelimiter_Checked (object sender, RoutedEventArgs e)
-            {
-            delimiter = ',';
-            }
-
-        private void tabDelimiter_Click (object sender, RoutedEventArgs e)
-            {
-            tabDelimiter.IsChecked = true;
-            }
-
-        private void tabDelimiter_Checked (object sender, RoutedEventArgs e)
-            {
-            delimiter = '\t';
-            }
-
-        private void spaceDelimiter_Checked (object sender, RoutedEventArgs e)
-            {
-            delimiter = ' ';
-            }
-
-        private void otherDelimiter_TextChanged (object sender, TextChangedEventArgs e)
-            {
-            if (!otherDelimiter.Text.Equals (""))
-                {
-                commaDelimiter.IsChecked = false;
-                semicolonDelimiter.IsChecked = false;
-                tabDelimiter.IsChecked = false;
-                spaceDelimiter.IsChecked = false;
-                delimiter = otherDelimiter.Text[0];
-                }
+            Image img = ((Image)sender);
+            img.Height /= 1.1;
             }
         }
     }

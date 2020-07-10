@@ -2,7 +2,7 @@
 
 START  /wait ./state.sh
 
-
-echo "The program executed successfully!"
-
+echo            . . . . . . . . . . . . . . . . . . . .
+echo               The program executed successfully!
+echo            . . . . . . . . . . . . . . . . . . . .
 

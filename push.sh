@@ -1,5 +1,5 @@
 printf "\n"
-echo" Updating  remote repository...."
+echo " Updating  remote repository...."
 printf "\n"
 echo "."
 echo ".."

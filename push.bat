@@ -2,7 +2,7 @@
 
 START  /wait ./push.sh
 
-echo
+echo  
 echo The program executed successfully!
-echo
+echo  
 

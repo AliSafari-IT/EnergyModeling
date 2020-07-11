@@ -14,7 +14,7 @@
     <Window.Resources>
         <!-- Used in order to have consistent borders: -->
         <Style TargetType="Border">
-            <Setter Property="BorderBrush"     Value="Black" />
+            <Setter Property="BorderBrush"     Value="DarkSlateGray" />
             <Setter Property="BorderThickness" Value="1"     />
             <Setter Property="Margin"          Value="3"     />
             <Setter Property="Padding"         Value="3"     />
@@ -39,6 +39,22 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
+        <Style TargetType="Button">
+            <!--Set to true to not get any properties from the themes.-->
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="{TemplateBinding Background}"/>
+                            <ContentPresenter HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Border Margin="15,15,15,15">
@@ -109,29 +125,39 @@
                     >
                     <RadioButton x:Name="dateFormat_rdButton" Content="My time series contain only Date column" GroupName="dateTimeRadioList" Margin="0,10,0,0" IsChecked="True" Click="dateFormat_rdButton_Click"/>
                     <RadioButton x:Name="dateTimeFormat_rdButton" Content="My time series contain Date and Time columns" GroupName="dateTimeRadioList" Margin="0,10" Click="dateTimeFormat_rdButton_Click"/>
-                    <Button 
-                        x:Name="importCSVFile" 
-                        Margin="0,100,0,0" Padding="5"
-                        Content="Create the Input Time Series" 
-                        HorizontalAlignment="Center" VerticalAlignment="Center" 
-                        FontSize="15"
-                        Click="importCSVFile_Click" Width="264"
+                    <Border 
+                        Margin="15,100,15,0" 
+                        Background="DarkSlateGray"
                         >
-                        <Button.Resources>
-                            <Style TargetType="{x:Type ToolTip}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ToolTip}">
-                                            <Grid Margin="0,60,0,0">
-                                                <Path Data="M0 0 30 0 50 -15 70 0 100 0 100 30 0 30z" Fill="#3E82C4" Stretch="Fill"/>
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,8"/>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
+                        
+                        <Button 
+                            x:Name="importCSVFile" 
+                            Background="Transparent"
+                            Opacity="1"
+                            Foreground="WhiteSmoke"
+                            BorderThickness="0"
+                            Padding="0"
+                            Content="Create the Input Time Series"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            FontSize="15"
+                            Click="importCSVFile_Click" Width="220" Margin="6,0"
+                            >
+                            <Button.Resources>
+                                <Style TargetType="{x:Type ToolTip}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ToolTip}">
+                                                <Grid Margin="0,60,0,0">
+                                                    <Path Data="M0 0 30 0 50 -15 70 0 100 0 100 30 0 30z" Fill="#3E82C4" Stretch="Fill"/>
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,8"/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Border>
                 </StackPanel>
             </StackPanel>
             <StackPanel
@@ -192,13 +218,13 @@
                 
                 >
                 <WrapPanel Orientation="Vertical" Margin="5" Height="185">
-                <Label  
+                    <Label  
                     Content="CSV list separator"
                     FontWeight="DemiBold"
                     HorizontalAlignment="Center"
                     />
 
-                <RadioButton 
+                    <RadioButton 
                     x:Name="commaDelimiter" 
                     Content="Comma"
                     IsChecked="True"
@@ -206,9 +232,9 @@
                     VerticalContentAlignment="Center"
                     GroupName="separatorList"
                     />
-                <Separator Margin="5"/>
+                    <Separator Margin="5"/>
 
-                <RadioButton 
+                    <RadioButton 
                     x:Name="semicolonDelimiter" 
                     Content="Semicolon"
                     VerticalAlignment="Center"
@@ -218,9 +244,9 @@
                     Width="170"     
                     />
 
-                <Separator Margin="5"/>
+                    <Separator Margin="5"/>
 
-                <RadioButton 
+                    <RadioButton 
                     x:Name="tabDelimiter" 
                     Content="Tab"
                     VerticalAlignment="Center"
@@ -228,10 +254,10 @@
                     GroupName="separatorList"
                     />
 
-                <Separator Margin="5"/>
+                    <Separator Margin="5"/>
 
 
-                <RadioButton 
+                    <RadioButton 
                     x:Name="spaceDelimiter"
                     Content="Space"
                     VerticalAlignment="Center"
@@ -239,16 +265,16 @@
                     GroupName="separatorList"
                     />
 
-                <Separator Margin="5"/>
+                    <Separator Margin="5"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock 
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
                     Text="Other separator"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                      />
 
-                    <TextBox
+                        <TextBox
                         x:Name="otherDelimiter"
                         Width="30"
                         Margin="10 0 0 0"
@@ -258,11 +284,11 @@
                         VerticalContentAlignment="Center" 
                         VerticalAlignment="Center"
                         />
-                </StackPanel>
+                    </StackPanel>
 
 
 
-                <Button 
+                    <Button 
                     x:Name="loadHeaderButton"
                     Margin="10 10 10 0"
                     Content="Load CSV File Columns"

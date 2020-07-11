@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Projects\PEM\PEM\obj\Debug\
+C:\Projects\EnergyModeling\PEM\PEM\obj\Debug\
 PEM
 none
 false
 DEBUG;TRACE
-C:\Projects\PEM\PEM\App.xaml
+C:\Projects\EnergyModeling\PEM\PEM\App.xaml
 3-1241056118
 
 849565217
-131-678662819
+1311167528925
 ViewModel\AnalysisTimeSeriesWindow.xaml;ViewModel\CreateTimeSeriesWindow.xaml;MainWindow.xaml;
 
 False

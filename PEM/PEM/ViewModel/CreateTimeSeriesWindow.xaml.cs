@@ -40,6 +40,7 @@ namespace PEM.AppWindows
         private string date_Title;
         private string time_Title;
         public ImageSource Source { get; set; }
+        public new ControlTemplate Template { get; set; }
 
         public CreateTimeSeriesWindow ()
             {

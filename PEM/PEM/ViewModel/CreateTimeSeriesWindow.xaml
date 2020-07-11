@@ -87,60 +87,159 @@
 
             <StackPanel 
                 x:Name="stackPanel_TS_Import"
-                Grid.Column="3" Grid.ColumnSpan="4" Grid.RowSpan="10" 
-                IsEnabled="False" Margin="0,10"
+                Grid.Column="3" 
+                Grid.ColumnSpan="7"
+                Grid.RowSpan="10" 
+                IsEnabled="False" 
+                Margin="0,10,10,10"                
                 >
                 <Label 
                     Content="Use drop-down to choose a time series"
                     FontSize="15"
-                    VerticalAlignment="Center" HorizontalAlignment="Center" 
-                    FontWeight="Bold" FontFamily="{DynamicResource {x:Static SystemFonts.IconFontFamilyKey}}"                    
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" 
+                    FontWeight="Bold" 
+                    FontFamily="{DynamicResource {x:Static SystemFonts.IconFontFamilyKey}}"                    
                     />
-
-                <ComboBox
-                    x:Name="headersComboList"
-                    SelectionChanged="headersComboList_SelectionChanged"
-                    SelectedIndex="0"
-                    
-                    >
-                    <ComboBoxItem 
-                        x:Name="comboItem"
-                        HorizontalAlignment="Center" IsSelected="True">-------- Choose a Time Series --------</ComboBoxItem>
-                </ComboBox>
-
-                <Button 
-                        x:Name="previousButton"
-                        Content="Previous"
-                        Margin="20"
-                        Width="100"
-                        HorizontalAlignment="Center"
-                        Click="previousButton_Click"
-                        />
 
                 <StackPanel
                     x:Name="stackPanel_ImportBtn"
-                    Margin="20 0" 
                     Orientation="Vertical"
-                    IsEnabled="False" Height="240"
+                    IsEnabled="False" Margin="30,0,30,0" 
                     >
-                    <RadioButton x:Name="dateFormat_rdButton" Content="My time series contain only Date column" GroupName="dateTimeRadioList" Margin="0,10,0,0" IsChecked="True" Click="dateFormat_rdButton_Click"/>
-                    <RadioButton x:Name="dateTimeFormat_rdButton" Content="My time series contain Date and Time columns" GroupName="dateTimeRadioList" Margin="0,10" Click="dateTimeFormat_rdButton_Click"/>
+                    <ComboBox
+                    x:Name="headersComboList"
+                    SelectionChanged="headersComboList_SelectionChanged"
+                    SelectedIndex="0"    
+                        HorizontalContentAlignment="Center"
+                    >
+                        <ComboBoxItem 
+                            x:Name="comboItem"
+                            HorizontalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            IsSelected="True">
+                            -------- Choose a Time Series --------
+                        </ComboBoxItem>
+                    </ComboBox>
                     <Border 
-                        Margin="15,100,15,0" 
+                        Background="DarkSlateGray" 
+                        Width="75" 
+                        Margin="200 5 0 0"
+                        >
+                        <Button 
+                            x:Name="previousButton"
+                            BorderBrush="DarkSlateGray"
+                            BorderThickness="1"
+                            Background="DarkSlateGray"
+                            Foreground="WhiteSmoke" 
+                            Content="Previous"
+                            FontWeight="DemiBold"
+                            Margin="11.131,0,0,0"
+                            HorizontalAlignment="Left"
+                            Click="previousButton_Click"
+                            >
+                        </Button>
+                    </Border>
+                </StackPanel>
+                <StackPanel>
+                    <RadioButton 
+                        x:Name="dateFormat_rdButton" 
+                        Content="My time series contain only Date column" 
+                        GroupName="dateTimeRadioList" 
+                        Margin="0,10,0,0" 
+                        IsChecked="True" 
+                        Click="dateFormat_rdButton_Click"
+                        />
+                    <RadioButton 
+                        x:Name="dateTimeFormat_rdButton"
+                        Content="My time series contain Date and Time columns" 
+                        GroupName="dateTimeRadioList" 
+                        Margin="0,10" 
+                        Click="dateTimeFormat_rdButton_Click"
+                        />
+                    <StackPanel
+                        x:Name="dateTime_StackPanel"
+                        Grid.Row="1" 
+                        Grid.RowSpan="5" 
+                        Grid.Column="7" 
+                        Grid.ColumnSpan="3" 
+                        Margin="0,5,0,0"     
+                        >
+                        <Separator Margin="0 0 0 20"/>
+                        <Label
+                            Content="In the loaded CSV file"
+                            FontWeight="Bold"
+                            HorizontalContentAlignment="Left" 
+                            />
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <WrapPanel>
+                                <Label 
+                                    Content="Date column title:" 
+                                    Foreground="Red" 
+                                    VerticalContentAlignment="Center"
+                                    />
+                                <Image 
+                                    x:Name="questionMarkDate"
+                                    Source="/PEM;component/Resources/Images/Icons/icons8-question-mark-96.png" 
+                                    Width="15" 
+                                    Margin="0,0,0,0" 
+                                    MouseEnter="questionMark_MouseEnter"
+                                    MouseLeave="questionMark_MouseLeave"
+                                    />
+                                <TextBox 
+                                x:Name="dateColTitle"
+                                Margin="0 0 0 0"
+                                Text="date"
+                                VerticalContentAlignment="Center"
+                                Padding="10 0 0 0"
+                                Template="{StaticResource TextBoxBaseControlTemplate}" 
+                                Width="380" 
+                                />
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Label 
+                                    Content="Time column title" 
+                                    Foreground="Red"
+                                    />
+                                <Image 
+                                    x:Name="questionMarkTime"
+                                    Source="/PEM;component/Resources/Images/Icons/icons8-question-mark-96.png" 
+                                    Width="15" 
+                                    Margin="1,0,0,0" 
+                                    MouseEnter="questionMark_MouseEnter"
+                                    MouseLeave="questionMark_MouseLeave"
+                                    />
+                                <TextBox 
+                                    x:Name="timeColTitle"
+                                    Margin="0 0 0 0"
+                                    Text="time"
+                                    VerticalContentAlignment="Center"
+                                    Padding="10 0 0 0"
+                                    Template="{StaticResource TextBoxBaseControlTemplate}" 
+                                    Width="380" 
+                                   />
+                            </WrapPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <Border 
+                        Margin="0" 
                         Background="DarkSlateGray"
                         >
-                        
+
                         <Button 
                             x:Name="importCSVFile" 
-                            Background="Transparent"
-                            Opacity="1"
+                            
                             Foreground="WhiteSmoke"
                             BorderThickness="0"
                             Padding="0"
                             Content="Create the Input Time Series"
-                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" 
                             FontSize="15"
-                            Click="importCSVFile_Click" Width="220" Margin="6,0"
+                            Click="importCSVFile_Click" 
+                            Width="220" 
+                            Margin="0"
                             >
                             <Button.Resources>
                                 <Style TargetType="{x:Type ToolTip}">
@@ -160,64 +259,21 @@
                     </Border>
                 </StackPanel>
             </StackPanel>
-            <StackPanel
-                x:Name="dateTime_StackPanel"
-                Grid.Row="1" Grid.RowSpan="5" Grid.Column="7" Grid.ColumnSpan="3" Margin="0,37,0,0"     
-                
-                >
-                <Label
-                    Content="Date/Time column title from CSV file"
-                    FontWeight="Bold" 
-                    HorizontalContentAlignment="Center"                    
-                    />
-                <StackPanel Orientation="Vertical" Margin="5">
-                    <WrapPanel>
-                        <Label Content="Date column title" Foreground="Red" />
-                        <Image x:Name="questionMarkDate"
-                               Source="/PEM;component/Resources/Images/Icons/icons8-question-mark-96.png" 
-                               Width="18" 
-                               Margin="10,0,0,0" 
-                               MouseEnter="questionMark_MouseEnter"
-                               MouseLeave="questionMark_MouseLeave"
-                               />
-                    </WrapPanel>
 
-                    <TextBox 
-                        x:Name="dateColTitle"
-                        Margin="0 0 0 0"
-                        Text="date"
-                        Template="{StaticResource TextBoxBaseControlTemplate}" 
-                        />
-
-                    <WrapPanel Margin="0 10 0 0">
-                        <Label Content="Time column title" Foreground="Red" />
-                        <Image x:Name="questionMarkTime"
-                               Source="/PEM;component/Resources/Images/Icons/icons8-question-mark-96.png" 
-                               Width="18" 
-                               Margin="10,0,0,0" 
-                               />
-                    </WrapPanel>
-
-                    <TextBox 
-                        x:Name="timeColTitle"
-                        Margin="0 0 0 0"
-                        Text="time"
-                        Template="{StaticResource TextBoxBaseControlTemplate}" 
-                        />
-                </StackPanel>
-
-            </StackPanel>
 
             <StackPanel 
                 x:Name="delimiterSPanel"  
-                Margin="20,20,20,10" 
-                
+                Margin="20,20,20,0"                 
                 Orientation="Vertical" 
-                Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="6" 
-                Background="FloralWhite"
-                
+                Grid.ColumnSpan="3" 
+                Grid.Row="1" 
+                Grid.RowSpan="6" 
+                Background="FloralWhite" 
+                RenderTransformOrigin="0.493,0.571" 
+                Height="209.8" 
+                VerticalAlignment="Top"                
                 >
-                <WrapPanel Orientation="Vertical" Margin="5" Height="185">
+                <WrapPanel Orientation="Vertical" Margin="5" Height="158">
                     <Label  
                     Content="CSV list separator"
                     FontWeight="DemiBold"
@@ -267,6 +323,7 @@
 
                     <Separator Margin="5"/>
 
+
                     <StackPanel Orientation="Horizontal">
                         <TextBlock 
                     Text="Other separator"
@@ -285,16 +342,40 @@
                         VerticalAlignment="Center"
                         />
                     </StackPanel>
-
-
-
-                    <Button 
-                    x:Name="loadHeaderButton"
-                    Margin="10 10 10 0"
-                    Content="Load CSV File Columns"
-                    Click="loadHeaderButton_Click"
-                    />
                 </WrapPanel>
+                <Border 
+                    Background="DarkSlateGray" 
+                    Width="164.207"
+                    Margin="5"
+                    >
+                    <Button 
+                        x:Name="loadHeaderButton"                        
+                        Margin="1"
+                        BorderBrush="DarkSlateGray"
+                        BorderThickness="1"
+                        Background="DarkSlateGray"
+                        Foreground="WhiteSmoke"
+                        FontWeight="DemiBold"
+                        Content="Load CSV File Columns"
+                        VerticalContentAlignment="Center"
+                        Click="loadHeaderButton_Click"
+                        >
+                        <Button.Resources>
+                            <Style TargetType="{x:Type ToolTip}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ToolTip}">
+                                            <Grid Margin="0,60,0,0">
+                                                <Path Data="M0 0 30 0 50 -15 70 0 100 0 100 30 0 30z" Fill="#3E82C4" Stretch="Fill"/>
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,8"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Border>
             </StackPanel>
 
 

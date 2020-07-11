@@ -92,8 +92,9 @@ namespace PEM.AppWindows
             string[] headers=getCSV_Header (filename, GetDelimiter ());
 
             Console.WriteLine ("Number of columns: {0}.", headers.Length);
-            MessageBox.Show ("number of columns " + headers.Length, "Verifying the choice of list separator ", (MessageBoxButton) MessageBoxButtons.OKCancel);
+            //MessageBox.Show ("number of columns " + headers.Length, "Verifying the choice of list separator ", (MessageBoxButton) MessageBoxButtons.OKCancel);
 
+            //Fill in the Combo Box for choosing the time series to extract from the source file
             foreach (string colName in headers)
                 {
                 headersComboList.Items.Add (colName);

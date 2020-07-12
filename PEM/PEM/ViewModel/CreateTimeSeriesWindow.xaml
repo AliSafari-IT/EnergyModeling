@@ -148,8 +148,8 @@
                         Content="My time series contain only Date column" 
                         GroupName="dateTimeRadioList" 
                         Margin="0,10,0,0" 
-                        IsChecked="True" 
                         Click="dateFormat_rdButton_Click"
+                        Checked="dateFormat_rdButton_Checked"
                         />
                     <RadioButton 
                         x:Name="dateTimeFormat_rdButton"
@@ -157,6 +157,7 @@
                         GroupName="dateTimeRadioList" 
                         Margin="0,10" 
                         Click="dateTimeFormat_rdButton_Click"
+                        Checked="dateTimeFormat_rdButton_Checked"
                         />
                     <StackPanel
                         x:Name="dateTime_StackPanel"
@@ -190,7 +191,6 @@
                                 <TextBox 
                                 x:Name="dateColTitle"
                                 Margin="0 0 0 0"
-                                Text="date"
                                 VerticalContentAlignment="Center"
                                 Padding="10 0 0 0"
                                 Template="{StaticResource TextBoxBaseControlTemplate}" 
@@ -213,7 +213,6 @@
                                 <TextBox 
                                     x:Name="timeColTitle"
                                     Margin="0 0 0 0"
-                                    Text="Not Defined"
                                     VerticalContentAlignment="Center"
                                     Padding="10 0 0 0"
                                     Template="{StaticResource TextBoxBaseControlTemplate}" 
@@ -221,16 +220,19 @@
                                    />
                             </WrapPanel>
                         </StackPanel>
-
                     </StackPanel>
-                    <Border 
+                    
+                    <StackPanel 
+                        x:Name="Create_CSV_btn_Panel"
+                        IsEnabled="False"
+                        >
+                        <Border 
                         Margin="0" 
                         Background="DarkSlateGray"
                         >
 
-                        <Button 
-                            x:Name="importCSVFile" 
-                            
+                            <Button 
+                            x:Name="importCSVFile"                            
                             Foreground="WhiteSmoke"
                             BorderThickness="0"
                             Padding="0"
@@ -242,22 +244,23 @@
                             Width="220" 
                             Margin="0"
                             >
-                            <Button.Resources>
-                                <Style TargetType="{x:Type ToolTip}">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ToolTip}">
-                                                <Grid Margin="0,60,0,0">
-                                                    <Path Data="M0 0 30 0 50 -15 70 0 100 0 100 30 0 30z" Fill="#3E82C4" Stretch="Fill"/>
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,8"/>
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-                    </Border>
+                                <Button.Resources>
+                                    <Style TargetType="{x:Type ToolTip}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ToolTip}">
+                                                    <Grid Margin="0,60,0,0">
+                                                        <Path Data="M0 0 30 0 50 -15 70 0 100 0 100 30 0 30z" Fill="#3E82C4" Stretch="Fill"/>
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,8"/>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </Border>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
 

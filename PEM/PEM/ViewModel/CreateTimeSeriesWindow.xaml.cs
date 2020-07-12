@@ -82,8 +82,13 @@ namespace PEM.AppWindows
             {
             stackPanel_TS_Import.IsEnabled = true;
             stackPanel_ImportBtn.IsEnabled = true;
+
             loadComboBoxItems ();
 
+            if (dateFormat_rdButton.IsChecked == true)
+                setDateColumnTitle ();
+            if (dateTimeFormat_rdButton.IsChecked == true)
+                setTimeColumnTitle ();
             }
 
 
@@ -100,46 +105,37 @@ namespace PEM.AppWindows
                 {
                 headersComboList.Items.Add (colName);
                 }
-            headersComboList.SelectedItem = headers[headers.Length-1];
-
-            setDateColumnTitle ();
-            setTimeColumnTitle ();
-
-
+            headersComboList.SelectedItem = headers[headers.Length - 1];
             }
 
         private void setTimeColumnTitle ()
             {
-            if (dateTimeFormat_rdButton.IsChecked == true)
+            setDateColumnTitle ();
+            string stringToCheck = "time";
+            int stringToCheckIndex = -1;
+            string elementInArray = "Not Defined or Not Found";
+            timeColTitle.Text = elementInArray;
+            if (Array.Exists<string> (headers, (Predicate<string>) delegate (string s)
                 {
-
-                string stringToCheck = "time";
-                int stringToCheckIndex = -1;
-                string elementInArray = "Not Defined or Not Found";
-                if (Array.Exists<string> (headers, (Predicate<string>) delegate (string s) {
                     stringToCheckIndex = s.IndexOf (stringToCheck, StringComparison.OrdinalIgnoreCase);
                     elementInArray = s;
                     return stringToCheckIndex > -1;
                     }))
-                    {
-                    timeColTitle.Text = elementInArray;
-                    }
+                {
+                timeColTitle.Text = elementInArray;
                 }
             }
 
         private void setDateColumnTitle ()
             {
-            string stringToCheck = "date";
-            int stringToCheckIndex = -1;
-            string elementInArray = "date";
-            if (Array.Exists<string> (headers, (Predicate<string>) delegate (string s) {
-                stringToCheckIndex = s.IndexOf (stringToCheck, StringComparison.OrdinalIgnoreCase);
-                elementInArray = s;
-                return stringToCheckIndex > -1;
-                }))
-                {
-                dateColTitle.Text = elementInArray;
-                }
+
+            dateColTitle.Text = "Not Defined or Not Found";
+
+            var match = headers.FirstOrDefault(c => c.IndexOf("date", StringComparison.OrdinalIgnoreCase) > 0);
+
+            if (match!=null)                
+                dateColTitle.Text = match;
+            timeColTitle.Text = "The chosen time seies have only date but no time to display.";
             }
 
         private char GetDelimiter ()
@@ -156,7 +152,7 @@ namespace PEM.AppWindows
                 {
                 return ' ';
                 }
-            if (otherDelimiter.Text.Length >0)
+            if (otherDelimiter.Text.Length > 0)
                 {
                 return otherDelimiter.Text[0];
                 }
@@ -327,7 +323,7 @@ namespace PEM.AppWindows
 
         private void headersComboList_SelectionChanged (object sender, SelectionChangedEventArgs e)
             {
-             selectedTimeSeries = e.AddedItems[0].ToString ();
+            selectedTimeSeries = e.AddedItems[0].ToString ();
             }
 
         private void dateFormat_rdButton_Click (object sender, RoutedEventArgs e)
@@ -341,7 +337,7 @@ namespace PEM.AppWindows
             setTimeColumnTitle ();
             }
 
-         private void otherDelimiter_LostFocus (object sender, RoutedEventArgs e)
+        private void otherDelimiter_LostFocus (object sender, RoutedEventArgs e)
             {
             if (!otherDelimiter.Text.Equals (""))
                 {
@@ -351,19 +347,31 @@ namespace PEM.AppWindows
                 spaceDelimiter.IsChecked = false;
                 delimiter = otherDelimiter.Text[0];
                 }
-                
+
             }
 
         private void questionMark_MouseEnter (object sender, System.Windows.Input.MouseEventArgs e)
             {
             Image img = ((Image)sender);
-            img.Height = img.ActualHeight * 1.1;
+            img.ToolTip = "Check if what shown below is the same as what you have in your source file as Date Column title.";
+
             }
 
         private void questionMark_MouseLeave (object sender, System.Windows.Input.MouseEventArgs e)
             {
-            Image img = ((Image)sender);
-            img.Height /= 1.1;
+            Image img = ((Image)sender);            
+            }
+
+        private void dateFormat_rdButton_Checked (object sender, RoutedEventArgs e)
+            {
+            setDateColumnTitle ();
+            Create_CSV_btn_Panel.IsEnabled = true;
+            }
+
+        private void dateTimeFormat_rdButton_Checked (object sender, RoutedEventArgs e)
+            {
+            setTimeColumnTitle ();
+            Create_CSV_btn_Panel.IsEnabled = true;
             }
         }
     }

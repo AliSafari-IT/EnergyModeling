@@ -28,8 +28,8 @@ namespace PEM.AppWindows
         private string[] headers;
         private string selectedTimeSeries;
         private int selectedTimeSeriesIndex;
-        private DataTable timeseriesTable;
-        private DataTable dateseriesTable;
+        private DataTable Date_Time_Variable_Table;
+        private DataTable Date_Variable_Table;
         private bool timeseries_has_time;
         public string filename;
         public string outFile_PTS_filePathWithoutExt;
@@ -66,15 +66,15 @@ namespace PEM.AppWindows
 
             //initializing DataTables
 
-            timeseriesTable = new DataTable ();
-            dateseriesTable = new DataTable ();
+            Date_Time_Variable_Table = new DataTable ();
+            Date_Variable_Table = new DataTable ();
 
-            timeseriesTable.Columns.Add ("Date", typeof (string));
-            timeseriesTable.Columns.Add ("Time", typeof (string));
-            timeseriesTable.Columns.Add ("Variable", typeof (string));
+            Date_Time_Variable_Table.Columns.Add ("Date", typeof (string));
+            Date_Time_Variable_Table.Columns.Add ("Time", typeof (string));
+            Date_Time_Variable_Table.Columns.Add ("Variable", typeof (string));
 
-            dateseriesTable.Columns.Add ("Date", typeof (string));
-            dateseriesTable.Columns.Add ("Variable", typeof (string));
+            Date_Variable_Table.Columns.Add ("Date", typeof (string));
+            Date_Variable_Table.Columns.Add ("Variable", typeof (string));
 
             }
 
@@ -89,8 +89,47 @@ namespace PEM.AppWindows
                 setDateColumnTitle ();
             if (dateTimeFormat_rdButton.IsChecked == true)
                 setTimeColumnTitle ();
+
+            selectedTimeSeriesIndex = getSelectedTimeSeriesIndex ();
+            dateIndex = getDateColumnIndex ();
+            timeIndex = getTimeColumnIndex ();
             }
 
+        private int getSelectedTimeSeriesIndex ()
+            {
+
+            for (int j = 0; j < headers.Length; j++)
+                {
+                if (String.Compare (headers[j], selectedTimeSeries) == 0)
+                    {
+                    selectedTimeSeriesIndex = j;
+                    }
+                }
+            Console.WriteLine ("\nselectedTimeSeriesIndex = " + selectedTimeSeriesIndex);
+            return selectedTimeSeriesIndex;
+            }
+
+        private int getDateColumnIndex ()
+            {
+            for (int j = 0; j < headers.Length; j++)
+                {
+                if (String.Compare (headers[j], dateColTitle.Text) == 0)
+                    dateIndex = j;
+                }
+            Console.WriteLine ("\ndateIndex  = " + dateIndex);
+            return dateIndex;
+            }
+
+        private int getTimeColumnIndex ()
+            {
+            for (int j = 0; j < headers.Length; j++)
+                {
+                if (String.Compare (headers[j], timeColTitle.Text) == 0)
+                    timeIndex = j;
+                }
+            Console.WriteLine ("\ntimeIndex = " + timeIndex);
+            return timeIndex;
+            }
 
         private void loadComboBoxItems ()
             {
@@ -131,19 +170,12 @@ namespace PEM.AppWindows
 
             dateColTitle.Text = "Not Defined or Not Found";
 
-            string w1 = "date";
-            // Check whether at least one match found
-            bool matchFound = headers.Any(w => headers.Contains(w1));
-
-            // Count all matches
-            int matchesCount = headers.Where(w => headers.Contains(w1)).Count();
-            Console.WriteLine ("matchFound {0}, matchesCount= {1}.", matchFound, matchesCount);
-
 
             var match = headers.FirstOrDefault(c => c.IndexOf("date", StringComparison.OrdinalIgnoreCase) > -1);
 
             if (match != null)
                 dateColTitle.Text = match;
+
             timeColTitle.Text = "The chosen time seies have only date but no time to display.";
             }
 
@@ -186,7 +218,6 @@ namespace PEM.AppWindows
             headers = header.Split (delimiter).Select (s => s.Trim ()).Where (s => s != String.Empty).ToArray ();
 
             headers.ToList ().ForEach (i => Console.WriteLine (i.ToString ()));
-
             Console.WriteLine ("[{0}]", string.Join (", ", headers));
 
             fileReader.Close ();
@@ -204,15 +235,17 @@ namespace PEM.AppWindows
             mainWindow.Show ();
             }
 
-        private void specificDelimiter_DataContextChanged (object sender, DependencyPropertyChangedEventArgs e)
-            {
-
-            }
-
         private void importCSVFile_Click (object sender, RoutedEventArgs e)
             {
 
-            Console.WriteLine ("\n\nExtracting the chosen time series.\n");
+            Console.WriteLine ("\n\n********** Extracting the chosen time series. *************\n");
+
+            dateIndex = getDateColumnIndex ();
+            timeIndex = getTimeColumnIndex ();
+            selectedTimeSeriesIndex = getSelectedTimeSeriesIndex ();
+
+
+
 
             get_TS_Data (); // fill the data table
 
@@ -239,13 +272,13 @@ namespace PEM.AppWindows
                 if (timeseries_has_time)
                     {
                     file.WriteLine ("date, time, variable");
-                    foreach (DataRow dr in timeseriesTable.Rows)
+                    foreach (DataRow dr in Date_Time_Variable_Table.Rows)
                         file.WriteLine (dr["Date"] + ", " + dr["Time"] + ", " + dr["Variable"]);
                     }
                 else
                     {
                     file.WriteLine ("date, variable");
-                    foreach (DataRow dr in dateseriesTable.Rows)
+                    foreach (DataRow dr in Date_Variable_Table.Rows)
                         file.WriteLine (dr["Date"] + ", " + dr["Variable"]);
                     }
                 file.Close ();
@@ -256,13 +289,13 @@ namespace PEM.AppWindows
         //********************************************************************************************************//
         private void get_TS_Data ()
             {
-            Console.WriteLine ("Check input file:\n " + filename);
 
             StreamReader fileReader = null;
 
             try
                 {
                 fileReader = new StreamReader (filename);
+                Console.WriteLine ("Check input file:\n " + filename + "\n\n");
                 }
             catch (FileNotFoundException)
                 {
@@ -273,20 +306,24 @@ namespace PEM.AppWindows
 
             while ((line = fileReader.ReadLine ()) != null)
                 {
-
                 line = line.Replace ('"', ' ');
                 string[] values = line.Split(delimiter).Select(s => s.Trim()).Where(s => s != String.Empty).ToArray();
 
-
+                for (int i = 0; i < values.Length; i++)
+                    {
+                    values[i] = values[i].Replace ('"', ' ');
+                    }
+                // printing each line values to the console
                 values.ToList ().ForEach (i => Console.Write (" " + i.ToString ())); Console.WriteLine ();
 
                 if (timeseries_has_time)
                     {
-                    timeseriesTable.Rows.Add (new object[] { values[dateIndex], values[timeIndex], values[selectedTimeSeriesIndex] });
+                    Date_Time_Variable_Table.Rows.Add (new object[] { values[dateIndex], values[timeIndex], values[selectedTimeSeriesIndex] });
                     }
                 else
                     {
-                    dateseriesTable.Rows.Add (new object[] { values[dateIndex], values[selectedTimeSeriesIndex] });
+                    Console.WriteLine ("values[dateIndex]: {0}, values[selectedTimeSeriesIndex] {1}", values[dateIndex], values[selectedTimeSeriesIndex]);
+                    Date_Variable_Table.Rows.Add (new object[] { values[dateIndex], values[selectedTimeSeriesIndex] });
                     }
                 }
             }
@@ -294,6 +331,7 @@ namespace PEM.AppWindows
         private void headersComboList_SelectionChanged (object sender, SelectionChangedEventArgs e)
             {
             selectedTimeSeries = e.AddedItems[0].ToString ();
+            Console.WriteLine ("\nSelected time seris is " + selectedTimeSeries + "\n");
             }
 
         private void dateFormat_rdButton_Click (object sender, RoutedEventArgs e)
@@ -336,12 +374,14 @@ namespace PEM.AppWindows
             {
             setDateColumnTitle ();
             Create_CSV_btn_Panel.IsEnabled = true;
+            timeseries_has_time = false;
             }
 
         private void dateTimeFormat_rdButton_Checked (object sender, RoutedEventArgs e)
             {
             setTimeColumnTitle ();
             Create_CSV_btn_Panel.IsEnabled = true;
+            timeseries_has_time = true;
             }
         }
     }

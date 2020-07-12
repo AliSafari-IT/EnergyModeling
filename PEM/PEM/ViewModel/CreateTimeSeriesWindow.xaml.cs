@@ -81,6 +81,7 @@ namespace PEM.AppWindows
         private void loadHeaderButton_Click (object sender, RoutedEventArgs e)
             {
             stackPanel_TS_Import.IsEnabled = true;
+            stackPanel_ImportBtn.IsEnabled = true;
             loadComboBoxItems ();
 
             }
@@ -98,6 +99,46 @@ namespace PEM.AppWindows
             foreach (string colName in headers)
                 {
                 headersComboList.Items.Add (colName);
+                }
+            headersComboList.SelectedItem = headers[headers.Length-1];
+
+            setDateColumnTitle ();
+            setTimeColumnTitle ();
+
+
+            }
+
+        private void setTimeColumnTitle ()
+            {
+            if (dateTimeFormat_rdButton.IsChecked == true)
+                {
+
+                string stringToCheck = "time";
+                int stringToCheckIndex = -1;
+                string elementInArray = "Not Defined or Not Found";
+                if (Array.Exists<string> (headers, (Predicate<string>) delegate (string s) {
+                    stringToCheckIndex = s.IndexOf (stringToCheck, StringComparison.OrdinalIgnoreCase);
+                    elementInArray = s;
+                    return stringToCheckIndex > -1;
+                    }))
+                    {
+                    timeColTitle.Text = elementInArray;
+                    }
+                }
+            }
+
+        private void setDateColumnTitle ()
+            {
+            string stringToCheck = "date";
+            int stringToCheckIndex = -1;
+            string elementInArray = "date";
+            if (Array.Exists<string> (headers, (Predicate<string>) delegate (string s) {
+                stringToCheckIndex = s.IndexOf (stringToCheck, StringComparison.OrdinalIgnoreCase);
+                elementInArray = s;
+                return stringToCheckIndex > -1;
+                }))
+                {
+                dateColTitle.Text = elementInArray;
                 }
             }
 
@@ -286,11 +327,7 @@ namespace PEM.AppWindows
 
         private void headersComboList_SelectionChanged (object sender, SelectionChangedEventArgs e)
             {
-            if (!comboItem.IsSelected)
-                {
-                stackPanel_ImportBtn.IsEnabled = true;
-                }
-            selectedTimeSeries = e.AddedItems[0].ToString ();
+             selectedTimeSeries = e.AddedItems[0].ToString ();
             }
 
         private void dateFormat_rdButton_Click (object sender, RoutedEventArgs e)
@@ -301,6 +338,7 @@ namespace PEM.AppWindows
         private void dateTimeFormat_rdButton_Click (object sender, RoutedEventArgs e)
             {
             timeseries_has_time = true;
+            setTimeColumnTitle ();
             }
 
          private void otherDelimiter_LostFocus (object sender, RoutedEventArgs e)

@@ -105,26 +105,27 @@
                 <StackPanel
                     x:Name="stackPanel_ImportBtn"
                     Orientation="Vertical"
-                    IsEnabled="False" Margin="30,0,30,0" 
+                    IsEnabled="False" 
+                    Margin="30,25,30,0" 
                     >
                     <ComboBox
-                    x:Name="headersComboList"
-                    SelectionChanged="headersComboList_SelectionChanged"
-                    SelectedIndex="0"    
+                        x:Name="headersComboList"
+                        SelectionChanged="headersComboList_SelectionChanged"
+                        SelectedIndex="0"    
                         HorizontalContentAlignment="Center"
-                    >
+                        >
                         <ComboBoxItem 
                             x:Name="comboItem"
                             HorizontalAlignment="Center"
                             HorizontalContentAlignment="Center"
-                            IsSelected="True">
+                            >
                             -------- Choose a Time Series --------
                         </ComboBoxItem>
                     </ComboBox>
                     <Border 
                         Background="DarkSlateGray" 
                         Width="75" 
-                        Margin="200 5 0 0"
+                        Margin="350 5 0 0"
                         >
                         <Button 
                             x:Name="previousButton"
@@ -141,7 +142,7 @@
                         </Button>
                     </Border>
                 </StackPanel>
-                <StackPanel>
+                <StackPanel Margin="0 0">
                     <RadioButton 
                         x:Name="dateFormat_rdButton" 
                         Content="My time series contain only Date column" 
@@ -165,7 +166,7 @@
                         Grid.ColumnSpan="3" 
                         Margin="0,5,0,0"     
                         >
-                        <Separator Margin="0 0 0 20"/>
+                        <Separator Margin="0 0 0 0"/>
                         <Label
                             Content="In the loaded CSV file"
                             FontWeight="Bold"
@@ -212,7 +213,7 @@
                                 <TextBox 
                                     x:Name="timeColTitle"
                                     Margin="0 0 0 0"
-                                    Text="time"
+                                    Text="Not Defined"
                                     VerticalContentAlignment="Center"
                                     Padding="10 0 0 0"
                                     Template="{StaticResource TextBoxBaseControlTemplate}" 
@@ -267,10 +268,10 @@
                 Orientation="Vertical" 
                 Grid.ColumnSpan="3" 
                 Grid.Row="1" 
-                Grid.RowSpan="6" 
+                Grid.RowSpan="7" 
                 Background="FloralWhite" 
                 RenderTransformOrigin="0.493,0.571" 
-                Height="209.8" 
+                Height="226" 
                 VerticalAlignment="Top"                
                 >
                 <WrapPanel Orientation="Vertical" Margin="5" Height="158">
@@ -345,7 +346,7 @@
                 </WrapPanel>
                 <Border 
                     Background="DarkSlateGray" 
-                    Width="164.207"
+                    Width="160"
                     Margin="5"
                     >
                     <Button 

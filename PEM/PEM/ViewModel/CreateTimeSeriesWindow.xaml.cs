@@ -131,9 +131,18 @@ namespace PEM.AppWindows
 
             dateColTitle.Text = "Not Defined or Not Found";
 
-            var match = headers.FirstOrDefault(c => c.IndexOf("date", StringComparison.OrdinalIgnoreCase) > 0);
+            string w1 = "date";
+            // Check whether at least one match found
+            bool matchFound = headers.Any(w => headers.Contains(w1));
 
-            if (match!=null)                
+            // Count all matches
+            int matchesCount = headers.Where(w => headers.Contains(w1)).Count();
+            Console.WriteLine ("matchFound {0}, matchesCount= {1}.", matchFound, matchesCount);
+
+
+            var match = headers.FirstOrDefault(c => c.IndexOf("date", StringComparison.OrdinalIgnoreCase) > -1);
+
+            if (match != null)
                 dateColTitle.Text = match;
             timeColTitle.Text = "The chosen time seies have only date but no time to display.";
             }
@@ -203,49 +212,7 @@ namespace PEM.AppWindows
         private void importCSVFile_Click (object sender, RoutedEventArgs e)
             {
 
-            try
-                {
-                date_Title = dateColTitle.Text;
-                }
-            catch (NullReferenceException err)
-                {
-                Console.WriteLine ("Error in Dta/Time title setting: " + err.ToString ());
-                dateColTitle.Text = date_Title;
-                timeColTitle.Text = time_Title;
-                }
-            finally
-                {
-                if (String.Compare ("date", dateColTitle.Text) != 0)
-                    {
-                    date_Title = dateColTitle.Text;
-                    }
-
-                if (String.Compare ("time", timeColTitle.Text) != 0)
-                    {
-                    time_Title = timeColTitle.Text;
-                    }
-                }
-
-            Console.WriteLine ("Date title is: {0}, and Time title is {1}.", date_Title, time_Title);
-
-            for (int j = 0; j < headers.Length; j++)
-                {
-                if (String.Compare (headers[j], selectedTimeSeries) == 0)
-                    {
-                    selectedTimeSeriesIndex = j;
-                    }
-                if (String.Compare (headers[j], date_Title) == 0)
-                    dateIndex = j;
-                if (String.Compare (headers[j], time_Title) == 0)
-                    timeIndex = j;
-
-                }
-
-            Console.WriteLine ("Selected: {0} and with index: {1}.", selectedTimeSeries, selectedTimeSeriesIndex);
-            Console.WriteLine ("dateIndex: {0}", dateIndex);
-            Console.WriteLine ("timeIndex: {0}", timeIndex);
-            Console.WriteLine ("selectedTimeSeriesIndex {0}.", selectedTimeSeriesIndex);
-            Console.WriteLine ("TimeSeries has time:     {0}!.", timeseries_has_time.ToString ());
+            Console.WriteLine ("\n\nExtracting the chosen time series.\n");
 
             get_TS_Data (); // fill the data table
 
@@ -289,7 +256,10 @@ namespace PEM.AppWindows
         //********************************************************************************************************//
         private void get_TS_Data ()
             {
+            Console.WriteLine ("Check input file:\n " + filename);
+
             StreamReader fileReader = null;
+
             try
                 {
                 fileReader = new StreamReader (filename);
@@ -353,13 +323,13 @@ namespace PEM.AppWindows
         private void questionMark_MouseEnter (object sender, System.Windows.Input.MouseEventArgs e)
             {
             Image img = ((Image)sender);
-            img.ToolTip = "Check if what shown below is the same as what you have in your source file as Date Column title.";
+            img.ToolTip = "Check if what shown below is the same as what you have in your source file as the column title.";
 
             }
 
         private void questionMark_MouseLeave (object sender, System.Windows.Input.MouseEventArgs e)
             {
-            Image img = ((Image)sender);            
+            Image img = ((Image)sender);
             }
 
         private void dateFormat_rdButton_Checked (object sender, RoutedEventArgs e)
